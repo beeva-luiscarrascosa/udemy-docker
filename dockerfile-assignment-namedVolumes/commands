@@ -1,0 +1,13 @@
+docker container run --name postgres -e POSTGRES_PASSWORD=hola -d postgres:9.6.1
+******
+Docker hub:
+9.6, se mira lo que tiene:
+VOLUME [/var/lib/postgresql/data]
+
+Como la última tiene esto dentro de su dockerfile:
+VOLUME /var/lib/postgresql/data
+
+Son compatibles
+******
+docker container run --name postgres -e POSTGRES_PASSWORD=hola -d -v postgres:/var/lib/postgresql/data postgres:9.6.1 
+docker container run --name postgres2 -e POSTGRES_PASSWORD=hola -d -v postgres:/var/lib/postgresql/data postgres:9.6.2
