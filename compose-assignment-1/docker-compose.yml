@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  database:
+    image: postgres
+    environment: 
+      POSTGRES_PASSWORD: luis  
+    restart: always
+
+  drupal:
+    #build:
+    #  context: ./
+      #dockerfile: Dockerfile
+    image: drupal
+    volumes: 
+       - drupal-modules:/var/www/html/modules
+       - drupal-profiles:/var/www/html/profiles
+       - drupal-themes:/var/www/html/themes
+       - drupal-sites:/var/www/html/sites
+    #  - ./modules:/var/www/html/modules
+    #  - ./profiles:/var/www/html/profiles
+    #  - ./sites:/var/www/html/sites
+    #  - ./themes:/var/www/html/themes
+      # Dentro tiene que haber una carpeta para contener las traducciones durante la instalación de Drupal
+      # mkdir ./sites/default/files/translations
+      # chmod 777 ./sites/default/files/translations
+    restart: always
+    ports:
+      - 8080:80
+    
+volumes: 
+  drupal-modules:
+  drupal-profiles:
+  drupal-themes:
+  drupal-sites:

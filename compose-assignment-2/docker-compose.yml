@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  database:
+    image: postgres
+    environment: 
+      POSTGRES_USER: luis
+      POSTGRES_PASSWORD: dameargo
+      POSTGRES_DB: drupal-data  
+    
+    volumes:
+      - drupal-data:/var/lib/postgresql/data
+
+  drupal:
+    image: custom-luis-drupal
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    volumes: 
+       - drupal-modules:/var/www/html/modules
+       - drupal-profiles:/var/www/html/profiles
+       - drupal-themes:/var/www/html/themes
+       - drupal-sites:/var/www/html/sites
+    ports:
+      - 8080:80
+    
+volumes: 
+  drupal-modules:
+  drupal-profiles:
+  drupal-themes:
+  drupal-sites:
+  drupal-data:
