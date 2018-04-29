@@ -1,0 +1,32 @@
+Resetear el swarm a muerte
+
+    sudo service docker stop
+    sudo rm -Rf /var/lib/docker/swarm
+    sudo service docker start
+*********************************************
+# using systemd
+sudo systemctl stop docker
+# make sure to make a backup if you delete something wrong
+sudo cp -ar /var/lib/docker/swarm/ /tmp/swarm.bak
+sudo nano /var/lib/docker/swarm/state.json
+
+state.json will look something like this:
+
+[{"node_id":"nodeidofhealthynode","addr":"123.123.123.123:2377"},
+{"node_id":"nodeidofunhealthynode","addr":"123.123.123.124:2377"}]
+
+You want to delete any entries to unhealthy nodes. so just one healthy manager node is left
+
+[{"node_id":"nodeidofhealthynode","addr":"123.123.123.123:2377"}]
+
+lastly restart docker
+
+sudo systemctl start docker
+*********************************************
+
+sudo docker swarm init --advertise-addr 10.0.2.15
+sudo docker swarm init --advertise-addr 192.168.99.103
+
+docker swarm join --token SWMTKN-1-59ecqlgohpo3jnd3ad9cozff80fybeefd9d7zh7homk0txcnu4-e1fdzop8au9ihuupid9pl9g5w 10.0.2.15:2377
+
+docker node update --role manager node2

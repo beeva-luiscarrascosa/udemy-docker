@@ -1,0 +1,13 @@
+sudo docker network create --driver overlay frontend
+sudo docker network create --driver overlay backend
+
+sudo docker service create --name vote --network frontend -p 80:80 --replicas 3 dockersamples/examplevotingapp_vote:before
+
+sudo docker service create --name redis --network frontend --replicas 1 redis:3.2
+
+Este intenta funcionar pero hasta que el db no se despliega no lo hará. Desde otro manager se puede hacer el db y se ve como se pone ok
+sudo docker service create --name worker --network frontend --network backend --replicas 1 dockersamples/examplevotingapp_worker
+
+sudo docker service create --name db --network backend --mount type=volume,source=db-data,target=/var/lib/postgresql/data postgres:9.4
+
+sudo docker service create --name result --network backend --replicas 1 -p 5001:80 dockersamples/examplevotingapp_result:before
