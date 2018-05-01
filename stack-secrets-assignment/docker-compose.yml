@@ -3,12 +3,12 @@ version: '3.1'
 services:
   database:
     image: postgres:9.6
-    environment: 
-      POSTGRES_PASSWORD_FILE: /run/secrets/db_pass
-      POSTGRES_USER_FILE: /run/secrets/db_user
     secrets:
       - db_user
       - db_pass
+    environment: 
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_pass
+      POSTGRES_USER_FILE: /run/secrets/db_user
     volumes:
       - drupal-data:/var/lib/postgresql/data
 
@@ -32,4 +32,6 @@ secrets:
   db_user:
     file: ./psql_user.txt
   db_pass:
-    external: true
+    file: ./psql_password.txt
+#  db_pass:
+#    external: true
